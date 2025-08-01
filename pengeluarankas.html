@@ -1,206 +1,348 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pengeluaran Kas</title>
   <link rel="shortcut icon" href="rpl.png" type="image/x-icon" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    body {
+    :root {
+      --primary: #4a6cf7;
+      --primary-light: #6a8aff;
+      --primary-dark: #3a5ae0;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --light: #f8f9fa;
+      --dark: #1e293b;
+      --card-bg: #ffffff;
+      --input-bg: #f8fafc;
+      --border-color: #e2e8f0;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+      --dashboard-bg: #f5f7fb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
-      background: #f0f2f5;
+    }
+
+    body {
+      background: var(--dashboard-bg);
       min-height: 100vh;
       padding: 30px 20px;
-      color: #333;
+      color: var(--dark);
     }
 
     .container {
-      max-width: 700px;
-      background: #fff;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+      max-width: 800px;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
       margin: auto;
+      border: 1px solid var(--border-color);
+      animation: fadeIn 0.6s ease-out;
     }
 
-    h2,
-    h3 {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 25px;
+      color: var(--primary);
       font-weight: 600;
-      margin-bottom: 30px;
-      color: #2c3e50;
-      letter-spacing: 1px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      color: var(--primary-dark);
+      text-decoration: none;
+    }
+
+    h2, h3 {
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--dark);
       text-align: center;
     }
 
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
     label {
-      font-weight: 600;
-      margin-bottom: 6px;
       display: block;
-      color: #555;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 0.95rem;
     }
 
-    input,
-    textarea {
+    .form-group i {
+      position: absolute;
+      left: 15px;
+      top: 42px;
+      color: var(--primary);
+      font-size: 18px;
+    }
+
+    input, textarea {
       width: 100%;
-      padding: 10px 14px;
-      margin-bottom: 18px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 15px;
-      transition: border-color 0.3s ease;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: #4a90e2;
-      outline: none;
-    }
-
-    button {
-      background-color: #4a90e2;
-      border: none;
-      padding: 12px 22px;
-      color: white;
-      font-weight: 700;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background: var(--input-bg);
       font-size: 16px;
-      letter-spacing: 0.05em;
+      transition: var(--transition);
+      outline: none;
+      color: var(--dark);
     }
 
-    button:hover {
-      background-color: #357abd;
+    textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
-    table {
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+    }
+
+    .btn-submit {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-weight: 600;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition);
       width: 100%;
-      border-collapse: separate !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(74, 108, 247, 0.25);
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(74, 108, 247, 0.35);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .expense-table {
+      width: 100%;
+      border-collapse: separate;
       border-spacing: 0 10px;
       margin-top: 30px;
     }
 
-    thead th {
+    .expense-table th {
       text-align: left;
       font-weight: 700;
-      padding: 10px 6px;
-      border-bottom: 2px solid #4a90e2;
-      color: #2c3e50;
+      padding: 12px 15px;
+      border-bottom: 2px solid var(--primary);
+      color: var(--dark);
     }
 
-    tbody tr {
-      background: #f9fafc;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
-      transition: transform 0.15s ease;
-    }
-
-    tbody tr:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 12px rgb(0 0 0 / 0.1);
-    }
-
-    tbody td {
-      padding: 12px 8px;
+    .expense-table td {
+      padding: 15px;
       vertical-align: middle;
-      font-size: 15px;
-      color: #444;
+      background: var(--input-bg);
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .expense-table tr:hover td {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     .text-right {
       text-align: right;
-      font-weight: 600;
     }
 
     .btn-delete {
-      background-color: #dc3545;
+      background-color: var(--danger);
       border: none;
       color: white;
-      padding: 6px 12px;
+      padding: 8px 12px;
       border-radius: 8px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .btn-delete:hover {
       background-color: #b02a37;
     }
 
+    .total-row {
+      font-weight: 700;
+      background: rgba(74, 108, 247, 0.1) !important;
+    }
+
     .history-section {
-      margin-top: 50px;
+      margin-top: 40px;
+      background: var(--input-bg);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: var(--shadow);
     }
 
     .history-list {
-      max-height: 250px;
+      max-height: 300px;
       overflow-y: auto;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 12px 18px;
-      background: #fafafa;
+      padding-right: 10px;
     }
 
     .history-item {
       display: flex;
       justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-      color: #555;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+      align-items: center;
     }
 
     .history-item:last-child {
       border-bottom: none;
     }
 
-    .history-item span {
-      min-width: 80px;
+    .history-item div:first-child {
+      flex: 1;
+    }
+
+    .history-item div:last-child {
+      min-width: 100px;
       text-align: right;
       font-weight: 600;
+      color: var(--primary);
+    }
+
+    .history-date {
+      font-size: 0.85rem;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 20px;
+      color: var(--secondary);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--input-bg);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .expense-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+      
+      .history-item div:last-child {
+        text-align: left;
+        width: 100%;
+      }
     }
   </style>
 </head>
 
 <body>
-
   <div class="container">
-    <a href="dashboard.html" class="btn btn-secondary mb-4">← Kembali ke Dashboard</a>
+    <a href="dashboard.html" class="back-btn">
+      <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
+    </a>
+    
     <h2>Catat Pengeluaran Kas Kelas</h2>
 
-
     <form id="formPengeluaran">
-      <label for="keterangan">Keterangan</label>
-      <textarea id="keterangan" rows="2" placeholder="Misal: Beli alat tulis" required></textarea>
+      <div class="form-group">
+        <label for="keterangan">Keterangan</label>
+        <i class="bi bi-card-text"></i>
+        <textarea id="keterangan" placeholder="Misal: Beli alat tulis" required></textarea>
+      </div>
 
-      <label for="jumlah">Jumlah (Rp)</label>
-      <input type="number" id="jumlah" placeholder="Masukkan jumlah pengeluaran" min="1" required />
+      <div class="form-group">
+        <label for="jumlah">Jumlah (Rp)</label>
+        <i class="bi bi-cash-stack"></i>
+        <input type="number" id="jumlah" placeholder="Masukkan jumlah pengeluaran" min="1" required />
+      </div>
 
-      <label for="tanggal">Tanggal</label>
-      <input type="date" id="tanggal" required />
+      <div class="form-group">
+        <label for="tanggal">Tanggal</label>
+        <i class="bi bi-calendar"></i>
+        <input type="date" id="tanggal" required />
+      </div>
 
-      <button type="submit">Tambah Pengeluaran</button>
+      <button type="submit" class="btn-submit">
+        <i class="bi bi-plus-circle"></i> Tambah Pengeluaran
+      </button>
     </form>
 
-    <table>
+    <table class="expense-table">
       <thead>
         <tr>
           <th>Keterangan</th>
           <th>Tanggal</th>
-          <th class="text-right">Jumlah (Rp)</th>
+          <th class="text-right">Jumlah</th>
           <th>Aksi</th>
         </tr>
       </thead>
       <tbody id="listPengeluaran">
-        <!-- Data pengeluaran muncul di sini -->
+        <!-- Data pengeluaran akan muncul di sini -->
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="2" class="text-right"><strong>Total Pengeluaran:</strong></td>
-          <td class="text-right" id="totalPengeluaran">Rp 0</td>
-          <td></td>
+          <td colspan="2" class="total-row">Total Pengeluaran:</td>
+          <td class="text-right total-row" id="totalPengeluaran">Rp 0</td>
+          <td class="total-row"></td>
         </tr>
       </tfoot>
     </table>
@@ -208,7 +350,7 @@
     <div class="history-section">
       <h3>Riwayat Pengeluaran Terbaru</h3>
       <div class="history-list" id="historyList">
-        <!-- Riwayat pengeluaran muncul di sini -->
+        <!-- Riwayat pengeluaran akan muncul di sini -->
       </div>
     </div>
   </div>
@@ -232,19 +374,30 @@
       pengeluaranData.forEach((item, idx) => {
         total += item.jumlah; // Tambahkan ke total
 
+        // Format tanggal
+        const formattedDate = new Date(item.tanggal).toLocaleDateString('id-ID', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+
         // Buat baris tabel untuk setiap pengeluaran
         const tr = document.createElement("tr");
         tr.innerHTML = `
-      <td>${item.keterangan}</td>
-      <td>${new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
-      <td class="text-right">Rp ${item.jumlah.toLocaleString()}</td>
-      <td><button class="btn-delete" data-idx="${idx}">Hapus</button></td>
-    `;
+          <td>${item.keterangan}</td>
+          <td>${formattedDate}</td>
+          <td class="text-right">Rp ${item.jumlah.toLocaleString('id-ID')}</td>
+          <td>
+            <button class="btn-delete" data-idx="${idx}">
+              <i class="bi bi-trash"></i> Hapus
+            </button>
+          </td>
+        `;
         listPengeluaran.appendChild(tr); // Tambahkan ke tabel
       });
 
-      // Tampilkan total pengeluaran di elemen yang disediakan
-      totalPengeluaranElem.textContent = `Rp ${total.toLocaleString()}`;
+      // Tampilkan total pengeluaran
+      totalPengeluaranElem.textContent = `Rp ${total.toLocaleString('id-ID')}`;
 
       // Tampilkan bagian riwayat
       renderHistory();
@@ -254,26 +407,40 @@
     function renderHistory() {
       historyList.innerHTML = ""; // Bersihkan isi riwayat terlebih dahulu
 
+      // Jika tidak ada data pengeluaran
+      if (pengeluaranData.length === 0) {
+        historyList.innerHTML = `
+          <div class="empty-state">
+            <i class="bi bi-wallet2" style="font-size: 2rem; color: var(--primary);"></i>
+            <p style="margin-top: 10px;">Belum ada riwayat pengeluaran</p>
+          </div>
+        `;
+        return;
+      }
+
       // Urutkan data dari yang terbaru berdasarkan tanggal
       const sorted = [...pengeluaranData].sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
       const latestFive = sorted.slice(0, 5); // Ambil 5 data paling baru
 
       // Tampilkan setiap item dalam bentuk div
       latestFive.forEach(item => {
+        const formattedDate = new Date(item.tanggal).toLocaleDateString('id-ID', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        });
+
         const div = document.createElement("div");
         div.className = "history-item";
         div.innerHTML = `
-      <div>${item.keterangan}</div>
-      <span>${new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
-      <span>Rp ${item.jumlah.toLocaleString()}</span>
-    `;
+          <div>
+            <div>${item.keterangan}</div>
+            <div class="history-date">${formattedDate}</div>
+          </div>
+          <div>Rp ${item.jumlah.toLocaleString('id-ID')}</div>
+        `;
         historyList.appendChild(div);
       });
-
-      // Jika tidak ada data pengeluaran
-      if (pengeluaranData.length === 0) {
-        historyList.innerHTML = "<p style='text-align:center; color:#777;'>Belum ada riwayat pengeluaran.</p>";
-      }
     }
 
     // Event ketika form disubmit (tombol Tambah ditekan)
@@ -285,7 +452,7 @@
       const jumlah = parseInt(document.getElementById("jumlah").value);
       const tanggal = document.getElementById("tanggal").value;
 
-      // Validasi input agar tidak kosong atau salah
+      // Validasi input
       if (!keterangan || !jumlah || isNaN(jumlah) || !tanggal) {
         alert("Semua field harus diisi dengan benar.");
         return;
@@ -294,32 +461,38 @@
       // Tambahkan data baru ke array
       pengeluaranData.push({ keterangan, jumlah, tanggal });
 
-      // Simpan data ke localStorage dalam bentuk JSON string
+      // Simpan data ke localStorage
       localStorage.setItem("pengeluaranData", JSON.stringify(pengeluaranData));
 
       // Tampilkan kembali daftar pengeluaran terbaru
       renderPengeluaran();
 
-      // Reset form ke keadaan kosong
+      // Reset form
       form.reset();
+      
+      // Fokus ke field keterangan
+      document.getElementById("keterangan").focus();
     });
 
     // Event saat tombol hapus diklik
     listPengeluaran.addEventListener("click", (e) => {
-      if (e.target.classList.contains("btn-delete")) {
-        const idx = e.target.dataset.idx; // Ambil index dari data yang akan dihapus
+      if (e.target.classList.contains("btn-delete") || e.target.closest(".btn-delete")) {
+        const btn = e.target.classList.contains("btn-delete") ? e.target : e.target.closest(".btn-delete");
+        const idx = btn.dataset.idx;
+        
         if (confirm("Yakin ingin menghapus data ini?")) {
-          pengeluaranData.splice(idx, 1); // Hapus dari array
-          localStorage.setItem("pengeluaranData", JSON.stringify(pengeluaranData)); // Simpan ulang
-          renderPengeluaran(); // Render ulang tabel
+          pengeluaranData.splice(idx, 1);
+          localStorage.setItem("pengeluaranData", JSON.stringify(pengeluaranData));
+          renderPengeluaran();
         }
       }
     });
 
+    // Set tanggal default ke hari ini
+    document.getElementById("tanggal").valueAsDate = new Date();
+
     // Render data saat pertama kali halaman dibuka
     renderPengeluaran();
   </script>
-
 </body>
-
 </html>

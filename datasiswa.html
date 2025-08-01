@@ -1,174 +1,273 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Data Siswa</title>
   <link rel="shortcut icon" href="rpl.png" type="image/x-icon" />
-  <!-- Bootstrap dan font -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* Gaya umum halaman */
-    body {
+    :root {
+      --primary: #4a6cf7;
+      --primary-light: #6a8aff;
+      --primary-dark: #3a5ae0;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --light: #f8f9fa;
+      --dark: #1e293b;
+      --card-bg: #ffffff;
+      --input-bg: #f8fafc;
+      --border-color: #e2e8f0;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+      --dashboard-bg: #f5f7fb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #fff);
+    }
+
+    body {
+      background: var(--dashboard-bg);
       min-height: 100vh;
-      padding: 30px 10px;
-      color: #333;
+      padding: 30px 20px;
+      color: var(--dark);
     }
 
     .container {
-      max-width: 960px;
-      background: #ffffff;
-      padding: 35px 45px;
-      border-radius: 15px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      max-width: 1000px;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      margin: auto;
+      border: 1px solid var(--border-color);
+      animation: fadeIn 0.6s ease-out;
     }
 
-    /* Judul halaman */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(74, 108, 247, 0.1);
+    }
+
+    .back-btn:hover {
+      color: var(--primary-dark);
+      background: rgba(74, 108, 247, 0.2);
+      text-decoration: none;
+    }
+
     h2 {
-      font-weight: 600;
-      margin-bottom: 25px;
-      color: #1c2b36;
+      font-weight: 700;
+      color: var(--dark);
       text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-bottom: 5px;
     }
 
-    /* Tombol kembali */
-    .btn-back {
+    .subtitle {
+      text-align: center;
+      color: var(--secondary);
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+    }
+
+    .search-reset-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
       margin-bottom: 20px;
-      background-color: #17a2b8;
-      border: none;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 8px;
+      flex-wrap: wrap;
     }
 
-    .btn-back:hover {
-      background-color: #138496;
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
     }
 
-    /* Tombol reset */
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 12px;
+      color: var(--primary);
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background: var(--input-bg);
+      font-size: 15px;
+      transition: var(--transition);
+      outline: none;
+      color: var(--dark);
+    }
+
+    #searchInput:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+    }
+
     #resetKas {
-      font-weight: 600;
-      background-color: #dc3545;
+      background: var(--danger);
       border: none;
-      letter-spacing: 0.05em;
-      padding: 10px 20px;
-      border-radius: 8px;
-      color: #fff;
-      margin-bottom: 15px;
-      float: right;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
     }
 
     #resetKas:hover {
-      background-color: #b02a37;
+      background: #b02a37;
+      transform: translateY(-2px);
     }
 
-    /* Input pencarian */
-    #searchInput {
-      padding: 10px 15px;
-      border: 2px solid #17a2b8;
-      border-radius: 8px;
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-
-    /* Tabel data siswa */
-    table {
+    .student-table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0 8px;
       margin-top: 15px;
     }
 
-    thead {
-      background: #17a2b8;
-      color: #fff;
+    .student-table thead {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
     }
 
-    thead th {
-      padding: 14px;
+    .student-table th {
+      padding: 15px;
       text-align: center;
-      font-size: 15.5px;
       font-weight: 600;
+      font-size: 15px;
     }
 
-    tbody tr:nth-child(even) {
-      background-color: #f8f9fa;
+    .student-table tbody tr {
+      background: var(--input-bg);
+      border-radius: 12px;
+      transition: var(--transition);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
-    tbody tr:hover {
-      background-color: #e0f7fa;
+    .student-table tbody tr:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
-    tbody td {
-      padding: 14px;
+    .student-table td {
+      padding: 15px;
       text-align: center;
-      font-size: 14.5px;
+      vertical-align: middle;
     }
 
     .text-start {
       text-align: left !important;
     }
 
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
     .status-lunas {
-      color: #28a745;
-      font-weight: 700;
+      background: rgba(40, 167, 69, 0.1);
+      color: var(--success);
     }
 
     .status-belum {
-      color: #dc3545;
-      font-weight: 700;
+      background: rgba(220, 53, 69, 0.1);
+      color: var(--danger);
     }
 
-    #totalKas {
-      font-size: 16px;
-      font-weight: 600;
+    .total-kas {
       text-align: right;
-      margin-top: 20px;
-      color: #007b5e;
+      margin-top: 25px;
+      padding: 15px;
+      background: rgba(74, 108, 247, 0.1);
+      border-radius: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 16px;
     }
 
-    /* Tampilan mobile */
-    @media screen and (max-width: 576px) {
-      thead {
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .student-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .student-table thead {
         display: none;
       }
-
-      table,
-      tbody,
-      tr,
-      td {
+      
+      .student-table tbody tr {
         display: block;
-        width: 100%;
-      }
-
-      tr {
         margin-bottom: 15px;
-        background-color: #f9f9f9;
-        padding: 10px;
-        border-radius: 10px;
       }
-
-      td {
-        text-align: left;
-        padding: 6px 10px;
-        font-size: 15px;
-        position: relative;
+      
+      .student-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right !important;
+        padding: 10px 15px;
       }
-
-      td::before {
+      
+      .student-table td::before {
         content: attr(data-label);
-        font-weight: bold;
-        display: block;
-        margin-bottom: 4px;
-        color: #666;
+        font-weight: 600;
+        color: var(--dark);
+        margin-right: auto;
+        padding-right: 20px;
+      }
+      
+      .student-table td.text-start {
+        justify-content: flex-start;
+      }
+      
+      .status-badge {
+        margin-left: auto;
       }
     }
   </style>
@@ -176,20 +275,31 @@
 
 <body>
   <div class="container">
-    <!-- Tombol kembali ke dashboard -->
-    <a href="dashboard.html" class="btn btn-back">← Kembali ke Dashboard</a>
+    <div class="header-section">
+      <a href="dashboard.html" class="back-btn">
+        <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
+      </a>
+      
+      <div>
+        <h2>Data Siswa Kelas</h2>
+        <p class="subtitle">Status pembayaran kas minggu ini</p>
+      </div>
+      
+      <div style="width: 100%;"></div> <!-- Spacer -->
+    </div>
 
-    <!-- Judul -->
-    <h2>Data Siswa & Status Kas</h2>
+    <div class="search-reset-container">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" id="searchInput" placeholder="Cari nama siswa..." />
+      </div>
+      
+      <button id="resetKas">
+        <i class="bi bi-arrow-clockwise"></i> Reset Kas Mingguan
+      </button>
+    </div>
 
-    <!-- Input pencarian nama -->
-    <input type="text" id="searchInput" placeholder="Cari nama siswa..." class="form-control mb-3" />
-
-    <!-- Tombol reset kas -->
-    <button id="resetKas">Reset Kas Mingguan</button>
-
-    <!-- Tabel data siswa -->
-    <table>
+    <table class="student-table">
       <thead>
         <tr>
           <th>No</th>
@@ -202,8 +312,7 @@
       <tbody id="siswaTable"></tbody>
     </table>
 
-    <!-- Total kas -->
-    <p id="totalKas"></p>
+    <div class="total-kas" id="totalKas"></div>
   </div>
 
   <script>
@@ -264,18 +373,20 @@
         <td data-label="No">${i + 1}</td>
         <td class="text-start" data-label="Nama">${nama}</td>
         <td data-label="Kelas">X RPL 1</td>
-        <td data-label="Status Kas" class="${statusClass}">${status}</td>
-        <td data-label="Total Bayar">Rp ${totalBayar.toLocaleString()}</td>
+        <td data-label="Status Kas">
+          <span class="status-badge ${statusClass}">${status}</span>
+        </td>
+        <td data-label="Total Bayar">Rp ${totalBayar.toLocaleString('id-ID')}</td>
       `;
       tableBody.appendChild(row);
     });
 
     // Tampilkan total kas
-    totalKasEl.textContent = `Total Kas Minggu Ini: Rp ${totalKas.toLocaleString()}`;
+    totalKasEl.textContent = `Total Kas Minggu Ini: Rp ${totalKas.toLocaleString('id-ID')}`;
 
     // Fungsi reset kas minggu ini
     document.getElementById("resetKas").addEventListener("click", () => {
-      if (confirm("Apakah kamu yakin ingin mereset data kas minggu ini?")) {
+      if (confirm("Apakah kamu yakin ingin mereset data kas minggu ini?\nSemua catatan pembayaran minggu ini akan dihapus.")) {
         const now = new Date();
         const start = new Date(now);
         start.setDate(now.getDate() - now.getDay());
@@ -292,8 +403,15 @@
         });
 
         localStorage.setItem("kasData", JSON.stringify(kasDataBaru));
-        alert("Data kas minggu ini telah direset.");
-        location.reload();
+        
+        // Beri feedback visual
+        const btn = document.getElementById("resetKas");
+        btn.innerHTML = '<i class="bi bi-check-circle"></i> Berhasil Direset';
+        btn.style.background = 'var(--success)';
+        
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
       }
     });
 
@@ -301,12 +419,12 @@
     document.getElementById("searchInput").addEventListener("input", function () {
       const keyword = this.value.toLowerCase();
       const rows = document.querySelectorAll("#siswaTable tr");
+      
       rows.forEach(row => {
-        const nama = row.children[1].textContent.toLowerCase();
+        const nama = row.querySelector("td.text-start").textContent.toLowerCase();
         row.style.display = nama.includes(keyword) ? "" : "none";
       });
     });
   </script>
 </body>
-
 </html>
