@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Pengguna</title>
+  <link rel="shortcut icon" href="rpl.png" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #4a6cf7;
+      --primary-light: #6a8aff;
+      --primary-dark: #3a5ae0;
+      --secondary: #6c757d;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --light: #f8f9fa;
+      --dark: #1e293b;
+      --card-bg: #ffffff;
+      --input-bg: #f8fafc;
+      --border-color: #e2e8f0;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+      --dashboard-bg: #f5f7fb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--dashboard-bg);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .profile-container {
+      width: 100%;
+      max-width: 450px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.6s ease-out;
+      border: 1px solid var(--border-color);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-header {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      padding: 35px 20px 70px;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .profile-header h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .profile-header p {
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+
+    .profile-content {
+      padding: 20px 30px 30px;
+      position: relative;
+      margin-top: -40px;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 5px solid var(--card-bg);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(74, 108, 247, 0.3);
+    }
+
+    .profile-pic i {
+      font-size: 60px;
+      color: white;
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .input-group {
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+      padding-left: 5px;
+      font-size: 0.95rem;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 42px;
+      color: var(--primary);
+      font-size: 18px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background: var(--input-bg);
+      font-size: 16px;
+      transition: var(--transition);
+      outline: none;
+      color: var(--dark);
+    }
+
+    .input-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+    }
+
+    .input-group input::placeholder {
+      color: #94a3b8;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 4px 15px rgba(74, 108, 247, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(74, 108, 247, 0.35);
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(74, 108, 247, 0.05);
+    }
+
+    label.upload-btn {
+      display: block;
+      width: 100%;
+      padding: 12px 20px;
+      background: var(--input-bg);
+      color: var(--dark);
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      margin: 15px 0 5px;
+      border: 2px dashed var(--border-color);
+    }
+
+    label.upload-btn:hover {
+      background: #e2e8f0;
+      border-color: var(--primary);
+    }
+
+    label.upload-btn i {
+      margin-right: 8px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .profile-bg-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      background-image: 
+        radial-gradient(var(--primary) 1.5px, transparent 1.5px),
+        radial-gradient(var(--primary) 1.5px, transparent 1.5px);
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+    }
+
+    @media (max-width: 480px) {
+      .profile-container {
+        max-width: 100%;
+      }
+      
+      .profile-header {
+        padding: 25px 15px 50px;
+      }
+      
+      .profile-content {
+        padding: 20px 20px 25px;
+      }
+      
+      .profile-pic {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-bg-pattern"></div>
+      <h1>Profil Pengguna</h1>
+      <p>Kelola informasi akun Anda</p>
+    </div>
+    
+    <div class="profile-content">
+      <div class="profile-pic" id="profilePic">
+        <i class="bi bi-person"></i>
+      </div>
+      
+      <label for="foto" class="upload-btn">
+        <i class="bi bi-cloud-arrow-up"></i> Unggah Foto Profil
+      </label>
+      <input type="file" id="foto" accept="image/*" />
+      
+      <div class="input-group">
+        <label for="nama">Nama Pengguna</label>
+        <i class="bi bi-person"></i>
+        <input type="text" id="nama" placeholder="Masukkan nama pengguna" />
+      </div>
+      
+      <div class="input-group">
+        <label for="telepon">Nomor Telepon</label>
+        <i class="bi bi-telephone"></i>
+        <input type="text" id="telepon" placeholder="08xxxxxxxxxx" />
+      </div>
+      
+      <div class="btn-container">
+        <button class="btn-primary" onclick="simpanProfil()">
+          <i class="bi bi-check-circle"></i> Simpan Profil
+        </button>
+        <button class="btn-secondary" onclick="window.location.href='dashboard.html'">
+          <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const namaInput = document.getElementById("nama");
+    const teleponInput = document.getElementById("telepon");
+    const fotoInput = document.getElementById("foto");
+    const profilePic = document.getElementById("profilePic");
+
+    // Ambil data dari localStorage jika tersedia
+    namaInput.value = localStorage.getItem("profilNama") || "";
+    teleponInput.value = localStorage.getItem("profilTelepon") || "";
+
+    // Tampilkan foto profil jika ada
+    const fotoData = localStorage.getItem("profilFoto");
+    if (fotoData) {
+      profilePic.innerHTML = `<img src="${fotoData}" alt="Foto Profil" />`;
+    }
+
+    // Unggah foto profil
+    fotoInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          profilePic.innerHTML = `<img src="${e.target.result}" alt="Foto Profil" />`;
+          localStorage.setItem("profilFoto", e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Simpan profil
+    function simpanProfil() {
+      if (!namaInput.value.trim()) {
+        alert("Nama pengguna tidak boleh kosong!");
+        return;
+      }
+      
+      localStorage.setItem("profilNama", namaInput.value);
+      localStorage.setItem("profilTelepon", teleponInput.value);
+      
+      // Beri feedback visual
+      const btn = document.querySelector('.btn-primary');
+      const originalHTML = btn.innerHTML;
+      const originalBg = btn.style.background;
+      
+      btn.innerHTML = '<i class="bi bi-check2-circle"></i> Tersimpan!';
+      btn.style.background = 'linear-gradient(90deg, #2ecc71, #27ae60)';
+      
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.style.background = originalBg;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

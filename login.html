@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="shortcut icon" href="rpl.png" type="image/x-icon" />
+  <style>
+    /* ... (style tetap sama seperti milikmu, tidak perlu diubah) ... */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #667eea;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      z-index: -1;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 40px 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      width: 100%;
+      max-width: 400px;
+      color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .input-field {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #fff;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input-field label {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #fff;
+      pointer-events: none;
+      transition: 0.2s ease;
+    }
+
+    .input-field input:focus~label,
+    .input-field input:valid~label {
+      top: -8px;
+      font-size: 13px;
+      color: #cce6ff;
+    }
+
+    .forget {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    button {
+      width: 100%;
+      background: #fff;
+      color: #0072ff;
+      font-weight: 600;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    .create-account {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 14px;
+    }
+
+    .create-account a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form id="loginForm">
+      <h2>Login</h2>
+      <div class="input-field">
+        <input type="text" id="email" required />
+        <label>Masukkan email</label>
+      </div>
+      <div class="input-field">
+        <input type="password" id="password" required />
+        <label>Masukkan password</label>
+      </div>
+      <div class="forget">
+        <label><input type="checkbox" /> Simpan login</label>
+      </div>
+      <button type="submit">Masuk</button>
+      <div class="create-account">
+        Belum punya akun? <a href="buatakun.html">Buat akun</a>
+      </div>
+    </form>
+  </div>
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault(); // Mencegah form melakukan reload halaman
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Ambil data akun dari localStorage
+      const akun = JSON.parse(localStorage.getItem("akun")) || [];
+
+      // Cek apakah ada user dengan email dan password yang sesuai
+      const user = akun.find(
+        (user) => user.email === email && user.password === password
+      );
+
+      if (user) {
+        // Simpan data profil ke localStorage agar bisa digunakan di halaman lain
+        localStorage.setItem("profilNama", user.nama);
+        localStorage.setItem("profilTelepon", user.telepon);
+
+        alert("Login berhasil!");
+
+        // Arahkan ke dashboard
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Email atau password salah.");
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>

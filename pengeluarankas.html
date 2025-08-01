@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pengeluaran Kas</title>
+  <link rel="shortcut icon" href="rpl.png" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      padding: 30px 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+      margin: auto;
+    }
+
+    h2,
+    h3 {
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #2c3e50;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      color: #555;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+
+    button {
+      background-color: #4a90e2;
+      border: none;
+      padding: 12px 22px;
+      color: white;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    button:hover {
+      background-color: #357abd;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate !important;
+      border-spacing: 0 10px;
+      margin-top: 30px;
+    }
+
+    thead th {
+      text-align: left;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-bottom: 2px solid #4a90e2;
+      color: #2c3e50;
+    }
+
+    tbody tr {
+      background: #f9fafc;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+      transition: transform 0.15s ease;
+    }
+
+    tbody tr:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px rgb(0 0 0 / 0.1);
+    }
+
+    tbody td {
+      padding: 12px 8px;
+      vertical-align: middle;
+      font-size: 15px;
+      color: #444;
+    }
+
+    .text-right {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-delete:hover {
+      background-color: #b02a37;
+    }
+
+    .history-section {
+      margin-top: 50px;
+    }
+
+    .history-list {
+      max-height: 250px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 12px 18px;
+      background: #fafafa;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-item span {
+      min-width: 80px;
+      text-align: right;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <a href="dashboard.html" class="btn btn-secondary mb-4">← Kembali ke Dashboard</a>
+    <h2>Catat Pengeluaran Kas Kelas</h2>
+
+
+    <form id="formPengeluaran">
+      <label for="keterangan">Keterangan</label>
+      <textarea id="keterangan" rows="2" placeholder="Misal: Beli alat tulis" required></textarea>
+
+      <label for="jumlah">Jumlah (Rp)</label>
+      <input type="number" id="jumlah" placeholder="Masukkan jumlah pengeluaran" min="1" required />
+
+      <label for="tanggal">Tanggal</label>
+      <input type="date" id="tanggal" required />
+
+      <button type="submit">Tambah Pengeluaran</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Keterangan</th>
+          <th>Tanggal</th>
+          <th class="text-right">Jumlah (Rp)</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="listPengeluaran">
+        <!-- Data pengeluaran muncul di sini -->
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" class="text-right"><strong>Total Pengeluaran:</strong></td>
+          <td class="text-right" id="totalPengeluaran">Rp 0</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="history-section">
+      <h3>Riwayat Pengeluaran Terbaru</h3>
+      <div class="history-list" id="historyList">
+        <!-- Riwayat pengeluaran muncul di sini -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Ambil elemen-elemen HTML yang dibutuhkan
+    const form = document.getElementById("formPengeluaran");
+    const listPengeluaran = document.getElementById("listPengeluaran");
+    const totalPengeluaranElem = document.getElementById("totalPengeluaran");
+    const historyList = document.getElementById("historyList");
+
+    // Ambil data pengeluaran dari localStorage jika ada, atau gunakan array kosong
+    let pengeluaranData = JSON.parse(localStorage.getItem("pengeluaranData")) || [];
+
+    // Fungsi untuk merender data pengeluaran ke tabel
+    function renderPengeluaran() {
+      listPengeluaran.innerHTML = ""; // Kosongkan isi tabel terlebih dahulu
+      let total = 0;
+
+      // Loop semua data pengeluaran
+      pengeluaranData.forEach((item, idx) => {
+        total += item.jumlah; // Tambahkan ke total
+
+        // Buat baris tabel untuk setiap pengeluaran
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+      <td>${item.keterangan}</td>
+      <td>${new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
+      <td class="text-right">Rp ${item.jumlah.toLocaleString()}</td>
+      <td><button class="btn-delete" data-idx="${idx}">Hapus</button></td>
+    `;
+        listPengeluaran.appendChild(tr); // Tambahkan ke tabel
+      });
+
+      // Tampilkan total pengeluaran di elemen yang disediakan
+      totalPengeluaranElem.textContent = `Rp ${total.toLocaleString()}`;
+
+      // Tampilkan bagian riwayat
+      renderHistory();
+    }
+
+    // Fungsi untuk menampilkan 5 riwayat pengeluaran terbaru
+    function renderHistory() {
+      historyList.innerHTML = ""; // Bersihkan isi riwayat terlebih dahulu
+
+      // Urutkan data dari yang terbaru berdasarkan tanggal
+      const sorted = [...pengeluaranData].sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+      const latestFive = sorted.slice(0, 5); // Ambil 5 data paling baru
+
+      // Tampilkan setiap item dalam bentuk div
+      latestFive.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "history-item";
+        div.innerHTML = `
+      <div>${item.keterangan}</div>
+      <span>${new Date(item.tanggal).toLocaleDateString('id-ID')}</span>
+      <span>Rp ${item.jumlah.toLocaleString()}</span>
+    `;
+        historyList.appendChild(div);
+      });
+
+      // Jika tidak ada data pengeluaran
+      if (pengeluaranData.length === 0) {
+        historyList.innerHTML = "<p style='text-align:center; color:#777;'>Belum ada riwayat pengeluaran.</p>";
+      }
+    }
+
+    // Event ketika form disubmit (tombol Tambah ditekan)
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // Cegah reload halaman
+
+      // Ambil nilai dari input
+      const keterangan = document.getElementById("keterangan").value.trim();
+      const jumlah = parseInt(document.getElementById("jumlah").value);
+      const tanggal = document.getElementById("tanggal").value;
+
+      // Validasi input agar tidak kosong atau salah
+      if (!keterangan || !jumlah || isNaN(jumlah) || !tanggal) {
+        alert("Semua field harus diisi dengan benar.");
+        return;
+      }
+
+      // Tambahkan data baru ke array
+      pengeluaranData.push({ keterangan, jumlah, tanggal });
+
+      // Simpan data ke localStorage dalam bentuk JSON string
+      localStorage.setItem("pengeluaranData", JSON.stringify(pengeluaranData));
+
+      // Tampilkan kembali daftar pengeluaran terbaru
+      renderPengeluaran();
+
+      // Reset form ke keadaan kosong
+      form.reset();
+    });
+
+    // Event saat tombol hapus diklik
+    listPengeluaran.addEventListener("click", (e) => {
+      if (e.target.classList.contains("btn-delete")) {
+        const idx = e.target.dataset.idx; // Ambil index dari data yang akan dihapus
+        if (confirm("Yakin ingin menghapus data ini?")) {
+          pengeluaranData.splice(idx, 1); // Hapus dari array
+          localStorage.setItem("pengeluaranData", JSON.stringify(pengeluaranData)); // Simpan ulang
+          renderPengeluaran(); // Render ulang tabel
+        }
+      }
+    });
+
+    // Render data saat pertama kali halaman dibuka
+    renderPengeluaran();
+  </script>
+
+</body>
+
+</html>

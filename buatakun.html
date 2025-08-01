@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buat Akun</title>
+  <link rel="shortcut icon" href="rpl.png" type="image/x-icon" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Open Sans", sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background:  #667eea;
+      padding: 20px;
+    }
+
+    .container {
+      width: 400px;
+      padding: 30px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .input-field {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      color: #fff;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .input-field label {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      color: #ccc;
+      pointer-events: none;
+      transition: 0.2s ease;
+    }
+
+    .input-field input:focus~label,
+    .input-field input:valid~label {
+      top: -10px;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background-color: #fff;
+      color: #333;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    .back {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back a {
+      color: #eee;
+      text-decoration: none;
+    }
+
+    .back a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form id="registerForm">
+      <h2>Buat Akun</h2>
+      <div class="input-field">
+        <input type="text" id="nama" required />
+        <label>Nama Lengkap</label>
+      </div>
+      <div class="input-field">
+        <input type="tel" id="telepon" required />
+        <label>No Telepon</label>
+      </div>
+      <div class="input-field">
+        <input type="email" id="email" required />
+        <label>Email</label>
+      </div>
+      <div class="input-field">
+        <input type="password" id="password" required />
+        <label>Password</label>
+      </div>
+      <button type="submit">Daftar</button>
+      <div class="back">
+        Sudah punya akun? <a href="login.html">Masuk di sini</a>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Event listener untuk saat formulir dikirim
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+      e.preventDefault(); // Mencegah reload halaman saat form disubmit
+
+      // Mengambil nilai dari input form
+      const nama = document.getElementById("nama").value;
+      const telepon = document.getElementById("telepon").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Mengambil data akun yang sudah ada dari localStorage
+      const akunLama = JSON.parse(localStorage.getItem("akun")) || [];
+
+      // Cek apakah email sudah pernah digunakan sebelumnya
+      const sudahAda = akunLama.find((user) => user.email === email);
+
+      if (sudahAda) {
+        alert("Email sudah digunakan. Silakan gunakan email lain.");
+        return; // Hentikan proses jika email sudah terdaftar
+      }
+
+      // Jika email belum dipakai, simpan data akun baru ke dalam array akun
+      akunLama.push({ nama, telepon, email, password });
+
+      // Simpan kembali data akun ke localStorage
+      localStorage.setItem("akun", JSON.stringify(akunLama));
+
+      // Simpan nama dan telepon ke localStorage untuk keperluan halaman profil
+      localStorage.setItem("profilNama", nama);
+      localStorage.setItem("profilTelepon", telepon);
+
+      alert("Akun berhasil dibuat."); // Tampilkan notifikasi
+
+      // Redirect langsung ke halaman login 
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+
+</html>
